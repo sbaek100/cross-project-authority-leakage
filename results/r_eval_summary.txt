@@ -1,0 +1,19 @@
+=== M9/M2: R1-R5 evaluation under LAUNCHER-BOUND identity (loopback, model-free) | 2026-11-07 23:00 ===
+body = client retrieved the protected resource through the broker; cross_proj = server
+cross_project_access; violation = policy_violation (eff>B: cross-project AND not granted).
+
+principal/request           decision     body  cross_proj  violation  note                              
+--------------------------  -----------  ----  ----------  ---------  ----------------------------------
+ambient O->git (no broker)  n/a(direct)  yes   yes         yes        R3 leak: token on shared path     
+bound=O -> git              deny         no    no          no         R1/R2: O not owner                
+bound=O -> public           allow        yes   no          no         R2: O owns public                 
+bound=W -> git              allow        yes   no          no         R1/R2/R5: W owns git              
+bound=W -> public           deny         no    no          no         R2: W not owner                   
+bound=O + grant -> git      allow        yes   yes         no         R5 share: authorized cross-project
+
+-- R1-R5 (derived; principals are launcher-bound, not code-supplied) --
+R1 trusted identity : git under bound O vs bound W -> deny vs allow (the code cannot change the bound id; spoof+binding shown in run_m8_bypass).
+R2 faithful mediation: (O,git)=deny (W,git)=allow (O,public)=allow (W,public)=deny.
+R3 non-ambient cred : ambient leak=yes/violation=yes; under broker the token is not on the execution's credential path (OS protection of the broker store is assumed, not shown).
+R4 transparency     : audit log records every decision; the authorized share is logged cross_proj=yes, violation=no (user-facing surfacing not built).
+R5 utility          : same-project (W,git) body=yes; explicit share (O,git,grant) body=yes -> client retrieves the protected resource in both.

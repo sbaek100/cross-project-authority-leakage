@@ -1,0 +1,20 @@
+=== M8: broker TCB / bypass-channel evaluation (loopback, model-free) | 2026-11-07 23:05 ===
+bypass? = YES means O reached W's resource (or the broker was fooled) WITHOUT a
+faithful brokered decision. 'secret' = the server returned W's protected payload.
+
+channel                                  bypass?  detail                                             
+---------------------------------------  -------  ---------------------------------------------------
+A filesystem (token on readable path)    YES      direct GET -> HTTP 200, secret=yes                 
+B environment variable                   YES      direct GET -> HTTP 200, secret=yes                 
+C confined (token only in broker)        no       direct(no cred) HTTP 403; broker(project=O) -> deny
+D identity spoof (id code-supplied)      YES      broker(claimed=W) -> allow                         
+D' identity bound (launcher-stamped id)  no       broker(claimed=W, bound=O) -> deny [W->O]          
+
+Reading: the broker closes the credentialed channel only when the launcher also
+(1) keeps credentials off every code-readable path (filesystem A, environment B) so
+    the only way to act is through the broker (R3), and
+(2) stamps an unforgeable project identity the code cannot set (D vs D', R1).
+A and B bypass the broker under an unconfined environment; C holds; D is a bypass
+when the identity is code-supplied and is closed (D') once the launcher binds it.
+This empirically delimits the TCB: complete mediation (P1) is a property of the
+confined execution environment plus the broker, not of the broker alone.

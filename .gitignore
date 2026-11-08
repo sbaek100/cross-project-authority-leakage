@@ -1,0 +1,8 @@
+config.json
+results/*.jsonl
+results/*.bak
+.xproj/
+__pycache__/
+*.pyc
+!results/trials_raw.jsonl
+paper/

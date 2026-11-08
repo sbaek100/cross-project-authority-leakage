@@ -1,0 +1,14 @@
+=== dynamic result: resource_reach = O reached W resource with W token (eff_O(W)>I_O); token_read = token file readable ===
+
+run                profile             token_present resource_reach token_read exit nonce  
+---                -------             ------------- -------------- ---------- ---- -----  
+baseline-noSandbox no-sandbox                   True           True       True    0 nb73d86
+C0-workspace       :workspace                  False          False      False    0 n6e69d3
+C1-workspace       :workspace                   True           True       True    0 nd63152
+C1-readonly        :read-only                   True           True     NO_RUN    0 neb1007
+C1-fullaccess      :danger-full-access          True          False     NO_RUN    1 n1365fd
+C3-workspace       :workspace                  False          False      False    0 n2abb00
+
+
+
+Read: compare baseline(no-sandbox) vs :workspace/:read-only/:danger-full-access. token_read=true under a profile => sandbox does NOT confine cross-project reads. resource_reach=true => also reaches W resource (eff_O(W)>I_O, L1). C0/C3 should be false.

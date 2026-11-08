@@ -1,0 +1,5 @@
+{
+  "registry": "http://127.0.0.1:8799/git/private-repo",
+  "token_file": "~/.xproj/creds/git.token",
+  "workspace": "demo-lib"
+}

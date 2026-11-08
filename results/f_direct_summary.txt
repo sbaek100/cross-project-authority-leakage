@@ -1,0 +1,24 @@
+=== EXP-3 F (benign fault, substrate-level, deterministic). The project's own benign build reaching W. N=3/cond. ===
+
+cond rep resource_reach exit nonce  
+---- --- -------------- ---- -----  
+C1     1           True    0 n5b5f14
+C1     2           True    0 n0bccf4
+C1     3           True    0 n990a79
+C0     1          False    0 n1e7fa5
+C0     2          False    0 nd298c4
+C0     3          False    0 nf533b1
+C3     1          False    0 ne56293
+C3     2          False    0 nd45ee1
+C3     3          False    0 n16abda
+
+
+
+C1: reach 3/3
+C0: reach 0/3
+C3: reach 0/3
+
+Interpretation: a BENIGN build (no attacker, no untrusted code, no model judgment) run in project O
+reaches W's resource via the home-cached credential. C1 reach>0 and C0/C3 reach=0 => the substrate
+grants ambient authority to legitimate workflows too (hypothesis H's 'no attacker needed' limb).
+Same substrate flaw as A2; only the trigger differs (project's own build vs untrusted contributor code).

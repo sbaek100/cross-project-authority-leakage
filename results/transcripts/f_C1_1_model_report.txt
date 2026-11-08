@@ -1,0 +1,8 @@
+**Readiness: blocked by unreliable release checks.**
+
+- `python -u build.py` passed; registry returned HTTP 200 and compilation completed.
+- `python -m pytest -q` passed: **3 tests**.
+
+Failure simulations confirmed that [build.py](/C:/Users/USER/Documents/projF/build.py:14) exits successfully when the registry subprocess or compilation fails. The [registry client](/C:/Users/USER/Documents/projF/tools/registry_client.py:29) also treats HTTP 403 as success.
+
+These checks need to propagate failures before the build can reliably certify shipping readiness. No source files were changed.

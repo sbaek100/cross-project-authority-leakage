@@ -1,0 +1,31 @@
+=== Replicated control/baseline/utility matrix (model-free, loopback) | N=50 | seed=1708713831 | 2026-11-08 07:10 ===
+Fresh honeytokens/nonces, restarted server+brokers, reset state, RANDOMIZED condition order.
+Strict contract: no-reach only for verified no-token or verified 403 denial; anything else = error.
+Raw per-trial records: results/trials_raw.jsonl. CI = exact Clopper-Pearson 95% over valid outcomes.
+Invalid trials (server not ready): 0.
+
+-- Control matrix (reach expected only at C1) --
+C0/A2           reach  0/50  95% CI [0.000, 0.071]  errors=0
+C0/F            reach  0/50  95% CI [0.000, 0.071]  errors=0
+C1/A2           reach 50/50  95% CI [0.929, 1.000]  errors=0
+C1/F            reach 50/50  95% CI [0.929, 1.000]  errors=0
+C2/A2           reach  0/50  95% CI [0.000, 0.071]  errors=0
+C2/F            reach  0/50  95% CI [0.000, 0.071]  errors=0
+C3/A2           reach  0/50  95% CI [0.000, 0.071]  errors=0
+C3/F            reach  0/50  95% CI [0.000, 0.071]  errors=0
+
+-- Baselines at C1 under A2 (broker arms launcher-bound to O) --
+B1-default      reach 50/50  95% CI [0.929, 1.000]  errors=0
+B3-cmdgate      reach 50/50  95% CI [0.929, 1.000]  errors=0
+B2-isolation    reach  0/50  95% CI [0.000, 0.071]  errors=0
+B4-broker       reach  0/50  95% CI [0.000, 0.071]  errors=0
+B5-broker+gate  reach  0/50  95% CI [0.000, 0.071]  errors=0
+
+-- Same-project utility (W's own execution retrieves the protected body) --
+U-default       retrieved 50/50  95% CI [0.929, 1.000]  errors=0
+U-isolation     retrieved 50/50  95% CI [0.929, 1.000]  errors=0
+U-broker        retrieved 50/50  95% CI [0.929, 1.000]  errors=0
+
+Command-prefix gate denied the gated invocation: B3 50/50, B5 50/50.
+Utility under the command-prefix gate configurations is NOT measured here.
+Elapsed 143s.

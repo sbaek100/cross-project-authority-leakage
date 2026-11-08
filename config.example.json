@@ -1,0 +1,37 @@
+{
+  "server": {
+    "host": "127.0.0.1",
+    "port": 8799
+  },
+  "sandbox_dir": "./.xproj",
+  "log_path": "./results/access_log.jsonl",
+  "resources": {
+    "git": {
+      "owner": "W",
+      "path": "/git/private-repo"
+    },
+    "cloud": {
+      "owner": "W",
+      "path": "/cloud/staging-key"
+    },
+    "webapp": {
+      "owner": "W",
+      "path": "/webapp/internal-dashboard"
+    },
+    "db": {
+      "owner": "W",
+      "path": "/db/staging"
+    },
+    "public": {
+      "owner": "O",
+      "path": "/git/public-repo"
+    }
+  },
+  "honeytokens": {
+    "W": "HONEYTOKEN-W-0000000000000000",
+    "O": "HONEYTOKEN-O-1111111111111111"
+  },
+  "_comment": "Replace honeytoken values with fresh random strings per study. owner=which project the resource/credential belongs to. These are meaningless strings, never real credentials.",
+  "broker_port": 8800,
+  "broker_log": "./results/broker_log.jsonl"
+}

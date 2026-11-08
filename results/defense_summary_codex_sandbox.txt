@@ -1,0 +1,24 @@
+=== EXP-1 broker (sec3) + EXP-2 baselines (sec4.2). resource_reach = eff_O(W)>B_O confirmed by honeytoken server. ===
+
+arm                profile    project resource_reach token_read broker_decision cmd_denied broker_upstream exit nonce  
+---                -------    ------- -------------- ---------- --------------- ---------- --------------- ---- -----  
+base-nosandbox     no-sandbox O                 True       True                 n/a                           0 n2b4bcd
+B1-default         :workspace O                 True       True                 n/a                           0 nccc623
+B2-isolation       :workspace O                False      False                 n/a                           0 nf1dc2a
+B3-capscope        :workspace O                 True       True                 True                          0 n8411f2
+B4-broker          :workspace O                False      False deny            n/a        deny/              0 n621a06
+B5-broker+capscope :workspace O                False      False deny            True       deny/              0 n649ae3
+U-broker-utility   :workspace W                False      False allow           n/a        allow/200          0 n31b480
+C0-notoken         :workspace O                False      False                 n/a                           0 n731dbb
+C3-revoked         :workspace O                False      False                 n/a                           0 nde3e74
+
+
+
+Read guide:
+ - B1-default  : reach=TRUE  => product default leaks cross-project (baseline).
+ - B2-isolation: reach=FALSE => per-project store blocks it (token not reachable by O).
+ - B3-capscope : cmd_denied=True BUT reach=TRUE => command gate != substrate authority (CapScope's own limit).
+ - B4-broker   : reach=FALSE, broker_decision=deny, token_read=False => broker closes the leak (sec3 contribution).
+ - U-utility   : broker_decision=allow, broker_upstream=allow/200 => same-project use still works (R5 utility preserved).
+ - C0/C3       : reach=FALSE => causal control (leak tied to W's authentication state).
+Note: 0 reach is not proof of complete mediation; only the git resource path is demonstrated (state protocol limits).

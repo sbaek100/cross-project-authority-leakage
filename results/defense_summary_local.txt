@@ -1,0 +1,21 @@
+=== EXP-1 broker (sec3) + EXP-2 baselines (sec4.2) | LOCAL model-free run | 2026-11-08 07:14 ===
+resource_reach = eff_O(W) > B_O confirmed by honeytoken server (cross_project_access). Honeytokens + loopback only.
+arm                 project  resource_reach  token_read  broker_decision  cmd_denied  broker_upstream
+------------------  -------  --------------  ----------  ---------------  ----------  ---------------
+B1-default          O        True            True                         n/a                        
+B2-isolation        O        False           False                        n/a                        
+B3-capscope         O        True            True                         True                       
+B4-broker           O        False           False       deny             n/a         deny/-         
+B5-broker+capscope  O        False           False       deny             True        deny/-         
+U-broker-utility    W        False           False       allow            n/a         allow/200      
+C0-notoken          O        False           False                        n/a                        
+C3-removed          O        False           False                        n/a                        
+
+Read guide:
+ B1-default   : reach=True  => product default leaks cross-project (baseline).
+ B2-isolation : reach=False => per-project store blocks it (W token not on shared substrate).
+ B3-capscope  : cmd_denied=True BUT reach=True => command gate != substrate authority.
+ B4-broker    : reach=False, decision=deny, token_read=False => broker closes the leak (sec3).
+ U-utility    : decision=allow, upstream=200 => same-project use still works (R5 utility preserved).
+ C0 / C3      : reach=False => causal control (leak tied to W's authentication state).
+Note: 0 reach is not proof of complete mediation; only the git resource path is demonstrated.

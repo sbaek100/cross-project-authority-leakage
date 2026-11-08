@@ -1,0 +1,18 @@
+=== M2/M3 augmentation (loopback honeytokens; model-free) | 2026-11-07 23:05 ===
+case                                HTTP  protected body?  reach  note                                                  
+----------------------------------  ----  ---------------  -----  ------------------------------------------------------
+no token                            403   no               no     absent                                                
+random token                        403   no               no     unknown                                               
+wrong-owner (O tok)                 403   no               no     O's own token on W resource                           
+valid W tok, active=O               200   yes              yes    cross-project reach                                   
+W tok but REVOKED                   403   no               no     M3: revoked -> denied                                 
+C3 removed / C2 isolated (F build)  --    no               no     client: no cached credential -> skip (no request sent)
+C1 shared token (F build)           200   yes              yes    client used cached token                              
+
+M2: only a valid OWNING credential yields the protected payload (reach=yes);
+    absent/random/wrong-owner/revoked -> HTTP 403, no secret -> reach=no.
+    => reach measures exercised authority, not a token-bearing request.
+M3: removal (no credential to present) and revocation (presented, server-rejected)
+    are distinct mechanisms; both yield reach=no.
+C2/F: under per-project isolation the benign build finds no credential on the
+    shared substrate and reaches nothing (reach=no).
